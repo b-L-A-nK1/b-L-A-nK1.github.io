@@ -173,6 +173,36 @@
         
 
 <div class="post">
+    <a href="/2025/11/18/php-ini/">
+        <h2 class="post-title">php.ini</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/11/18
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        
+        
+    </div>
+    <a href="/2025/11/18/php-ini/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2025/11/14/0xGame-week1-web-wp/">
         <h2 class="post-title">0xGame week1 web wp</h2>
     </a>
@@ -269,7 +299,6 @@
 <?xml version="1.0"  ?>
 
 <!DOCTYPE a[
-
 <!ENTITY xxe SYSTEM "file:///flag">
 
 <p>]&gt;</p>
@@ -284,7 +313,33 @@
 
 
 
+<h1 id="6-Lemon-RevEnge"><a href="#6-Lemon-RevEnge" class="headerlink" title="6.Lemon_RevEnge"></a>6.Lemon_RevEnge</h1><p>首先看一下题目给的附件（是个python文件）</p>
+<p>源代码如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask,request,render_template</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">merge</span>(<span class="params">src, dst</span>):</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> k, v <span class="keyword">in</span> src.items():</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">if</span> <span class="built_in">hasattr</span>(dst, <span class="string">&#x27;__getitem__&#x27;</span>):</span><br><span class="line"></span><br><span class="line">​      <span class="keyword">if</span> dst.get(k) <span class="keyword">and</span> <span class="built_in">type</span>(v) == <span class="built_in">dict</span>:</span><br><span class="line"></span><br><span class="line">​        merge(v, dst.get(k))</span><br><span class="line"></span><br><span class="line">​      <span class="keyword">else</span>:</span><br><span class="line"></span><br><span class="line">​        dst[k] = v</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">elif</span> <span class="built_in">hasattr</span>(dst, k) <span class="keyword">and</span> <span class="built_in">type</span>(v) == <span class="built_in">dict</span>:</span><br><span class="line"></span><br><span class="line">​      merge(v, <span class="built_in">getattr</span>(dst, k))</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">else</span>:</span><br><span class="line"></span><br><span class="line">​      <span class="built_in">setattr</span>(dst, k, v)</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Dst</span>():</span><br><span class="line"></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">Game0x = Dst()</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/&#x27;</span>,methods=[<span class="string">&#x27;POST&#x27;</span>, <span class="string">&#x27;GET&#x27;</span>]</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>():</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> request.data:</span><br><span class="line"></span><br><span class="line">​    merge(json.loads(request.data), Game0x)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> render_template(<span class="string">&quot;index.html&quot;</span>, Game0x=Game0x)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/&lt;path:path&gt;&quot;</span></span>)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">render_page</span>(<span class="params">path</span>):</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(<span class="string">&quot;templates/&quot;</span> + path):</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">return</span> <span class="string">&quot;Not Found&quot;</span>, <span class="number">404</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> render_template(path)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line"></span><br><span class="line">  app.run(host=<span class="string">&#x27;0.0.0.0&#x27;</span>, port=<span class="number">9000</span>)</span><br></pre></td></tr></table></figure>
 
+<p>首先看到了这一部分</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/&lt;path:path&gt;&quot;</span></span>)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">render_page</span>(<span class="params">path</span>):</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(<span class="string">&quot;templates/&quot;</span> + path):</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">return</span> <span class="string">&quot;Not Found&quot;</span>, <span class="number">404</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> render_template(path)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>说明这题的路径是去访问一个路径再加上页面中的内容提示：</p>
+<img src="polluted1.png" style="zoom:60%;" />
+
+<p>但是得到了Not Found的访问，既然页面提示说了flag在&#x2F;flag中（勉强再相信一次），看看有没有可能&#x2F;flag在某个父目录（上层目录）里面，尝试访问&#x2F;..&#x2F;flag or &#x2F;..&#x2F;..&#x2F;flag等等，都是回复的Not Found 😫。</p>
+<p>在经过寻找后，发现不管我跳出了多少目录，最后访问的依旧还是&#x2F;flag😨.那么现在再看页面就没的多少信息了，回头再看下源代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Dst</span>():</span><br><span class="line"></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">Game0x = Dst()</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/&#x27;</span>,methods=[<span class="string">&#x27;POST&#x27;</span>, <span class="string">&#x27;GET&#x27;</span>]</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>():</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> request.data:</span><br><span class="line"></span><br><span class="line">​    merge(json.loads(request.data), Game0x)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> render_template(<span class="string">&quot;index.html&quot;</span>, Game0x=Game0x</span><br></pre></td></tr></table></figure>
+
+<p>这里创造了一个Game0x实例，并且有着_init__方法，</p>
+<p>@app.route(‘&#x2F;‘,methods&#x3D;[‘POST’, ‘GET’])这里是Flask Web框架中的路由装饰器，这里支持GET,POST方法获取消息体中的内容进行函数装饰，merge(json.loads(request.data), Game0x)，看到这个就知道题目要求上传一个JSON内容并且这里调用了merge(    )函数，回到上面的部分</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">merge</span>(<span class="params">src, dst</span>):</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> k, v <span class="keyword">in</span> src.items():</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">if</span> <span class="built_in">hasattr</span>(dst, <span class="string">&#x27;__getitem__&#x27;</span>):</span><br><span class="line"></span><br><span class="line">​      <span class="keyword">if</span> dst.get(k) <span class="keyword">and</span> <span class="built_in">type</span>(v) == <span class="built_in">dict</span>:</span><br><span class="line"></span><br><span class="line">​        merge(v, dst.get(k))</span><br><span class="line"></span><br><span class="line">​      <span class="keyword">else</span>:</span><br><span class="line"></span><br><span class="line">​        dst[k] = v</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">elif</span> <span class="built_in">hasattr</span>(dst, k) <span class="keyword">and</span> <span class="built_in">type</span>(v) == <span class="built_in">dict</span>:</span><br><span class="line"></span><br><span class="line">​      merge(v, <span class="built_in">getattr</span>(dst, k))</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">else</span>:</span><br><span class="line"></span><br><span class="line">​      <span class="built_in">setattr</span>(dst, k, v)</span><br></pre></td></tr></table></figure>
+
+<p>然后进行然后分别对scr（用户上传的JSON内容经过转换后变成了Python字典），以及dst（Game0x实例）进行键值对的检查,到最后我们要达到这一目的   setattr(dst, k, v)    ，再想到改题目会把&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;给变成&#x2F;（网上查看了一下，可能是os.path.exists()函数执行时同时执行了normpath方法，而这个方法会规范化path路径，才导致了这个结果），再看到官方payload是这个</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; &quot;__init__&quot;:&#123;&quot;__globals__&quot;:&#123;&quot;os&quot;:&#123;&quot;path&quot;:&#123;&quot;pardir&quot;:&quot;,&quot;&#125;&#125;&#125;&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里到最后会形成访问链：</p>
+<p>Game0x.<strong>init</strong>.<strong>globals</strong>[“os”].path 然后再将path中的pardir属性改成“，”这样最后系统就会将要规范化的字符换了目标本来是要规范&#x2F;..&#x2F;，现在要规范&#x2F;,&#x2F;   这就可以保证我们可以正常浏览&#x2F;..&#x2F;类的网页了。后面使用burp suite进行POST,GET请求。（因为我在尝试使用Hackbar传输的时候，总是出现一些错误👀）</p>
+<p>(先POSTJSON内容，再GET所需路径)</p>
+<img src="polluted2.png" style="zoom:60%;" />
+
+<img src="polluted3.png" style="zoom:60%;" />
 
 
             
@@ -300,7 +355,7 @@
         
         <span class="tag">
             
-            <a href="/tags/0xGame-Web-week1/" style="color: #03a9f4">-0xGame Web -week1</a>
+            <a href="/tags/0xGame-Web-week1/" style="color: #ffa2c4">-0xGame Web -week1</a>
         </span>
         
     </div>
@@ -340,7 +395,7 @@
         
         <span class="tag">
             
-            <a href="/tags/Hexo/" style="color: #00a596">-Hexo</a>
+            <a href="/tags/Hexo/" style="color: #03a9f4">-Hexo</a>
         </span>
         
     </div>
