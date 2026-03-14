@@ -7,7 +7,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/hutao.jpg">
 <meta property="article:published_time" content="2026-02-09T10:46:28.265Z">
-<meta property="article:modified_time" content="2026-03-14T13:33:26.825Z">
+<meta property="article:modified_time" content="2026-03-14T13:52:53.936Z">
 <meta property="article:author" content="Blank">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/img/hutao.jpg"><script type="application/ld+json">{
@@ -17,7 +17,7 @@
   "url": "http://example.com/2026/02/09/XSS/",
   "image": "http://example.com/img/hutao.jpg",
   "datePublished": "2026-02-09T10:46:28.265Z",
-  "dateModified": "2026-03-14T13:33:26.825Z",
+  "dateModified": "2026-03-14T13:52:53.936Z",
   "author": [
     {
       "@type": "Person",
@@ -158,17 +158,19 @@
   isHighlightShrink: false,
   isToc: true,
   pageType: 'post'
-}</script><style>#page-header::before { backdrop-filter: blur(1px); -webkit-backdrop-filter: blur(1px); }</style><meta name="generator" content="Hexo 8.1.1"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/Columbina.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Blank</span></a><a class="nav-page-title" href="/"><span class="site-name">XSS</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">XSS</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-02-09T10:46:28.265Z" title="发表于 2026-02-09 18:46:28">2026-02-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-14T13:33:26.825Z" title="更新于 2026-03-14 21:33:26">2026-03-14</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>[TOC]</p>
+}</script><style>#page-header::before { backdrop-filter: blur(1px); -webkit-backdrop-filter: blur(1px); }</style><meta name="generator" content="Hexo 8.1.1"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/Columbina.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Blank</span></a><a class="nav-page-title" href="/"><span class="site-name">XSS</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">XSS</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-02-09T10:46:28.265Z" title="发表于 2026-02-09 18:46:28">2026-02-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-14T13:52:53.936Z" title="更新于 2026-03-14 21:52:53">2026-03-14</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>[TOC]</p>
 <h1 id="xss"><a href="#xss" class="headerlink" title="xss"></a>xss</h1><p>xss(跨站脚本攻击)，攻击者可以在网站页面注入恶意Javascript代码，当用户访问包含这个代码的页面（或者触发页面端相关行为时），会执行这段恶意代码，从而被攻击者窃取相关信息</p>
 <h2 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h2><h3 id="1、反射型"><a href="#1、反射型" class="headerlink" title="1、反射型"></a>1、反射型</h3><p>这是一种比较常见的XSS，攻击者注入的恶意脚本不会持久化的到服务器那边，而是及时的传递给用户。</p>
 <p>流程</p>
-<h5 id="1、用户点击了攻击者提供的链接"><a href="#1、用户点击了攻击者提供的链接" class="headerlink" title="1、用户点击了攻击者提供的链接"></a>1、用户点击了攻击者提供的链接</h5><h5 id="2、这个链接大多数会含有一些数据内容（藏有恶意代码）然后访问后会发送给服务器"><a href="#2、这个链接大多数会含有一些数据内容（藏有恶意代码）然后访问后会发送给服务器" class="headerlink" title="2、这个链接大多数会含有一些数据内容（藏有恶意代码）然后访问后会发送给服务器"></a>2、这个链接大多数会含有一些数据内容（藏有恶意代码）然后访问后会发送给服务器</h5><h5 id="3、服务器响应反射数据然后嵌入到网页中"><a href="#3、服务器响应反射数据然后嵌入到网页中" class="headerlink" title="3、服务器响应反射数据然后嵌入到网页中"></a>3、服务器响应反射数据然后嵌入到网页中</h5><h5 id="4、浏览器执行嵌入的恶意代码"><a href="#4、浏览器执行嵌入的恶意代码" class="headerlink" title="4、浏览器执行嵌入的恶意代码"></a>4、浏览器执行嵌入的恶意代码</h5><p>![](C:\Users\29493\Pictures\Screenshots\Screenshot 2026-02-12 160836.png)</p>
+<h5 id="1、用户点击了攻击者提供的链接"><a href="#1、用户点击了攻击者提供的链接" class="headerlink" title="1、用户点击了攻击者提供的链接"></a>1、用户点击了攻击者提供的链接</h5><h5 id="2、这个链接大多数会含有一些数据内容（藏有恶意代码）然后访问后会发送给服务器"><a href="#2、这个链接大多数会含有一些数据内容（藏有恶意代码）然后访问后会发送给服务器" class="headerlink" title="2、这个链接大多数会含有一些数据内容（藏有恶意代码）然后访问后会发送给服务器"></a>2、这个链接大多数会含有一些数据内容（藏有恶意代码）然后访问后会发送给服务器</h5><h5 id="3、服务器响应反射数据然后嵌入到网页中"><a href="#3、服务器响应反射数据然后嵌入到网页中" class="headerlink" title="3、服务器响应反射数据然后嵌入到网页中"></a>3、服务器响应反射数据然后嵌入到网页中</h5><h5 id="4、浏览器执行嵌入的恶意代码"><a href="#4、浏览器执行嵌入的恶意代码" class="headerlink" title="4、浏览器执行嵌入的恶意代码"></a>4、浏览器执行嵌入的恶意代码</h5><img src="Screenshot 2026-02-12 160836.png" style="zoom:60%" />
+
 <p>这个是反射型XSS典型的例子</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;alert(123);&lt;/script&gt;</span><br></pre></td></tr></table></figure>
 
 <p>这个js代码是显示一个弹窗（内容是123）</p>
 <p>然后的话url后面会跟个这个</p>
-<p><img src="C:\Users\29493\AppData\Roaming\Typora\typora-user-images\image-20260212161544850.png" alt="image-20260212161544850"></p>
+<img src="Screenshot 2026-02-12 161229.png" style="zoom:60%" />
+
 <p>这个时候如果把这个url发送给别人的时候，别人点击的话就会触发XSS</p>
 <h3 id="2、储存型"><a href="#2、储存型" class="headerlink" title="2、储存型"></a>2、储存型</h3><p>与数据库有交互的XSS，一般形式大多为评论框，若网页端对输入没有严格过滤的话，这些js代码会被注入到页面当中，当有用户访问这个页面时会看到这个评论，从而被攻击。</p>
 <h3 id="3、Dom类型"><a href="#3、Dom类型" class="headerlink" title="3、Dom类型"></a>3、Dom类型</h3><p>关于Dom(Document Object Mode)这个概念，中文名是文档对象模型，所以我们可以去有权限的修改文档中的内容，结构或样式，每当一个页面创建好并加载到浏览器时，DOM就会生成，将网页文档转换成一个文档对象</p>
